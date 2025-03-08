@@ -50,7 +50,8 @@ namespace Encryption
 
         private void passwordBox_Enter(object sender, EventArgs e)
         {
-
+            encryptBtn.Enabled = true;
+            decryptBtn.Enabled = true;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -58,6 +59,16 @@ namespace Encryption
 
         }
         private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void encryptBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void decryptBtn_Click(object sender, EventArgs e)
         {
 
         }
