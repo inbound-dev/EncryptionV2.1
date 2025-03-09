@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Encryption.EncryptionFiles;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,11 +8,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Encryption.EncryptionFiles;
+using Encryption.DecryptionFiles;
+using System.Windows.Forms.VisualStyles;
+
 
 namespace Encryption
 {
     public partial class Form1 : System.Windows.Forms.Form
     {
+        private String fileName;
         public Form1()
         {
             InitializeComponent();
@@ -39,19 +45,48 @@ namespace Encryption
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.ShowDialog();
 
+            //if the user actuall selects a file, then continue
             if (dlg.FileName != null && dlg.FileName != "")
             {
                 selectedFileLabel.Text = "Selected File: " + dlg.FileName;
-                selectedFileLabel.Visible = true;
+                fileName = dlg.FileName;
 
+                selectedFileLabel.Visible = true;
                 passwordBox.Enabled = true;
+
+                dlg.Dispose();
             }
         }
 
         private void passwordBox_Enter(object sender, EventArgs e)
         {
+            //when the password box is entered it enables the buttons
             encryptBtn.Enabled = true;
             decryptBtn.Enabled = true;
+        }
+
+        private void encryptBtn_Click(object sender, EventArgs e)
+        {
+            statusLbl.Text = "Encrypting.......";
+
+            EncryptionFiles.Encryption encryption = new EncryptionFiles.Encryption(fileName);
+
+            
+
+            statusLbl.Text = "Done";
+        }
+
+        private void decryptBtn_Click(object sender, EventArgs e)
+        {
+            statusLbl.Text = "Decrypting.......";
+
+
+            statusLbl.Text = "Done";
+        }
+
+        private void selectedFileLabel_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -59,16 +94,6 @@ namespace Encryption
 
         }
         private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void encryptBtn_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void decryptBtn_Click(object sender, EventArgs e)
         {
 
         }

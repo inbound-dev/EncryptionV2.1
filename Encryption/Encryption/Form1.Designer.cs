@@ -36,6 +36,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.encryptBtn = new System.Windows.Forms.Button();
             this.decryptBtn = new System.Windows.Forms.Button();
+            this.statusLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // titleLabel
@@ -73,9 +74,9 @@
             this.selectedFileLabel.AutoSize = true;
             this.selectedFileLabel.Location = new System.Drawing.Point(12, 157);
             this.selectedFileLabel.Name = "selectedFileLabel";
-            this.selectedFileLabel.Size = new System.Drawing.Size(44, 16);
+            this.selectedFileLabel.Size = new System.Drawing.Size(0, 16);
             this.selectedFileLabel.TabIndex = 3;
-            this.selectedFileLabel.Text = "label2";
+            this.selectedFileLabel.Click += new System.EventHandler(this.selectedFileLabel_Click);
             // 
             // passwordBox
             // 
@@ -106,7 +107,7 @@
             // 
             // decryptBtn
             // 
-            this.decryptBtn.Location = new System.Drawing.Point(203, 295);
+            this.decryptBtn.Location = new System.Drawing.Point(247, 296);
             this.decryptBtn.Name = "decryptBtn";
             this.decryptBtn.Size = new System.Drawing.Size(75, 23);
             this.decryptBtn.TabIndex = 7;
@@ -114,11 +115,20 @@
             this.decryptBtn.UseVisualStyleBackColor = true;
             this.decryptBtn.Click += new System.EventHandler(this.decryptBtn_Click);
             // 
+            // statusLbl
+            // 
+            this.statusLbl.AutoSize = true;
+            this.statusLbl.Location = new System.Drawing.Point(178, 356);
+            this.statusLbl.Name = "statusLbl";
+            this.statusLbl.Size = new System.Drawing.Size(0, 16);
+            this.statusLbl.TabIndex = 8;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(430, 629);
+            this.ClientSize = new System.Drawing.Size(430, 441);
+            this.Controls.Add(this.statusLbl);
             this.Controls.Add(this.decryptBtn);
             this.Controls.Add(this.encryptBtn);
             this.Controls.Add(this.label3);
@@ -145,6 +155,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button encryptBtn;
         private System.Windows.Forms.Button decryptBtn;
+        private System.Windows.Forms.Label statusLbl;
     }
 }
 
