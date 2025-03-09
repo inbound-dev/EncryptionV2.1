@@ -85,15 +85,16 @@
             this.passwordBox.Size = new System.Drawing.Size(100, 22);
             this.passwordBox.TabIndex = 4;
             this.passwordBox.Enter += new System.EventHandler(this.passwordBox_Enter);
+            this.passwordBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.passwordBox_KeyDown);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(131, 204);
+            this.label3.Location = new System.Drawing.Point(45, 204);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(166, 16);
+            this.label3.Size = new System.Drawing.Size(337, 16);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Please enter the password";
+            this.label3.Text = "Please enter the password (hit enter before proceeding)";
             // 
             // encryptBtn
             // 

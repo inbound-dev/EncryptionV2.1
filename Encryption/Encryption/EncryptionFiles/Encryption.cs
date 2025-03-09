@@ -9,7 +9,7 @@ namespace Encryption.EncryptionFiles
     internal class Encryption
     {
         //defualt constructor runs as soon as object is created
-        public Encryption(String fileName) 
+        public Encryption(String fileName, String key) 
         {
             
         }

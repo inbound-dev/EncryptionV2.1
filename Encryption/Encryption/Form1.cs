@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using Encryption.EncryptionFiles;
 using Encryption.DecryptionFiles;
 using System.Windows.Forms.VisualStyles;
+using Encryption.HashFunction;
 
 
 namespace Encryption
@@ -18,6 +19,7 @@ namespace Encryption
     public partial class Form1 : System.Windows.Forms.Form
     {
         private String fileName;
+        private String key;
         public Form1()
         {
             InitializeComponent();
@@ -69,9 +71,13 @@ namespace Encryption
         {
             statusLbl.Text = "Encrypting.......";
 
-            EncryptionFiles.Encryption encryption = new EncryptionFiles.Encryption(fileName);
+            //uses hashfunction to create a hash of given password
+            Hash hash = new Hash(key);
 
-            
+            Console.WriteLine("Key: " + key);
+
+            //encrypts the file with the given key
+            EncryptionFiles.Encryption encryption = new EncryptionFiles.Encryption(fileName, key);
 
             statusLbl.Text = "Done";
         }
@@ -82,6 +88,11 @@ namespace Encryption
 
 
             statusLbl.Text = "Done";
+        }
+
+        private void passwordBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            key = passwordBox.Text;
         }
 
         private void selectedFileLabel_Click(object sender, EventArgs e)
