@@ -20,6 +20,7 @@ namespace Encryption
     {
         private String fileName;
         private String key;
+        String hash;
         public Form1()
         {
             InitializeComponent();
@@ -72,9 +73,10 @@ namespace Encryption
             statusLbl.Text = "Encrypting.......";
 
             //uses hashfunction to create a hash of given password
-            Hash hash = new Hash(key);
+            Hash hashfunc = new Hash();
+            hash = hashfunc.NewHash(key);
 
-            Console.WriteLine("Key: " + key);
+            Console.WriteLine("Key: " + hash);
 
             //encrypts the file with the given key
             EncryptionFiles.Encryption encryption = new EncryptionFiles.Encryption(fileName, key);
@@ -93,6 +95,11 @@ namespace Encryption
         private void passwordBox_KeyDown(object sender, KeyEventArgs e)
         {
             key = passwordBox.Text;
+        }
+
+        private void resetDefualt()
+        {
+
         }
 
         private void selectedFileLabel_Click(object sender, EventArgs e)
