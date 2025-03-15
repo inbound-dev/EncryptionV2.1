@@ -34,35 +34,32 @@ namespace Encryption.HashFunction
 
         private static string HashGivenString(string input)
         {
-            string finalProduct = input;
+            string finalProduct = input.ToUpper();
 
-            for(int i = 0; i < 6; i++)
+            for(int i = 0; i < 2; i++)
             {
-                //everything is out of order, order is, convert input into binary, 
-                //run the input through the dictionary, then create binary of that, 
+                //everything is out of order, order is, run through dictionary,
+                //then convert to ascii, then create binary of that, 
                 //xor them togther, invert that binary, convert that into a string,
                 //then run that through the dictionary
-                
+
+
+                //runs the input through the dictionary
+                string processedInput = string.Empty;
+                foreach (char val in finalProduct)
+                {
+                    processedInput += EncodeString(val);
+                }
+
                 //turns the given string into its ASCII representation
                 string numericalRep = string.Empty;
-                foreach (char key in finalProduct)
+                foreach (char key in processedInput)
                 {
                     numericalRep += (int)key;
                 }
 
                 //turns given string into its binary representation
-                string binaryRep = BinaryToString(processedInput);
-
-                //runs the input through the dictionary
-                string processedInput = string.Empty;
-                foreach (char val in numericalRep)
-                {
-                    processedInput += EncodeString(val);
-                }
-
-                //turns given string into its binary representation
-                string binaryRep = BinaryToString(processedInput);
-                
+                string binaryRep = StringToBinary(numericalRep);
 
                 //inverts the given binary rep
                 string invertedBinary = BinaryInverter(binaryRep);
@@ -70,22 +67,23 @@ namespace Encryption.HashFunction
                 //peform xor using original and inverted string
                 string binaryAfterXor = XorGate(invertedBinary, binaryRep);
 
-                //finally invert the whole thing one last time
-                //invertedBinary = binaryInverter(binaryAfterXor);
-
                 //turns it back into a string for use next round
-                //finalProduct = BinaryToString(invertedBinary);
+                finalProduct = BinaryToString(binaryRep);
 
                 Console.WriteLine(invertedBinary.ToString());
                 Console.WriteLine("-----------");
                 Console.WriteLine(binaryRep.ToString());
                 Console.WriteLine("***********");
+                Console.WriteLine(binaryAfterXor.ToString());
+                Console.WriteLine("//////////////");
+                Console.WriteLine(finalProduct);
+
             }
 
             return finalProduct;
         }
 
-        private string StringToBinary(string input)
+        private static string StringToBinary(string input)
         {
             string output = string.Empty;
 
@@ -121,22 +119,18 @@ namespace Encryption.HashFunction
             { 
                 if (input1[i] == '1' && input2[i] == '1')
                 {
-                    Console.WriteLine("here1");
                     output += '0';
                 }
                 else if (input1[i] == '0' && input2[i] == '0')
                 {
-                    Console.WriteLine("here2");
                     output += '0';
                 }
                 else if (input1[i] == '1' && input2[i] == '0')
                 {
-                    Console.WriteLine("here3");
                     output += '1';
                 }
                 else if (input1[i] == '0' && input2[i] == '1')
                 {
-                    Console.WriteLine("here4");
                     output += '1';
                 }
             }

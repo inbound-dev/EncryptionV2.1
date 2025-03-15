@@ -15,7 +15,7 @@
       "RelativeMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|solutionrelative:encryption\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|c:\\users\\jorda\\onedrive\\documents\\github\\encryptionv2.1\\encryption\\encryption\\encryptionfiles\\encryption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|C:\\Users\\Jorda\\OneDrive\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\encryption\\encryptionfiles\\encryption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|solutionrelative:encryption\\encryptionfiles\\encryption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -41,8 +41,7 @@
               "ToolTip": "C:\\Users\\Jorda\\OneDrive\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\Form1.cs [Design]",
               "RelativeToolTip": "Encryption\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-08T01:12:07.206Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-03-08T01:12:07.206Z"
             },
             {
               "$type": "Document",
@@ -54,8 +53,7 @@
               "RelativeToolTip": "Encryption\\Form1.cs",
               "ViewState": "AgIAAEQAAAAAAAAAAAAkwCkAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-08T01:16:44.665Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-08T01:16:44.665Z"
             },
             {
               "$type": "Document",
@@ -65,7 +63,7 @@
               "RelativeDocumentMoniker": "Encryption\\Hash\\Hash.cs",
               "ToolTip": "C:\\Users\\Jorda\\OneDrive\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\Hash\\Hash.cs*",
               "RelativeToolTip": "Encryption\\Hash\\Hash.cs*",
-              "ViewState": "AgIAADsAAAAAAAAAAAAWwEwAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAADUAAAAAAAAAAADwv04AAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-09T12:03:53.969Z",
               "EditorCaption": ""
@@ -80,8 +78,7 @@
               "RelativeToolTip": "Encryption\\EncryptionFiles\\Encryption.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-09T08:45:01.24Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-09T08:45:01.24Z"
             },
             {
               "$type": "Document",
