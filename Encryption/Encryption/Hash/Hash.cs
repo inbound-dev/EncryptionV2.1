@@ -36,7 +36,7 @@ namespace Encryption.HashFunction
         {
             string finalProduct = input.ToUpper();
 
-            for(int i = 0; i < 2; i++)
+            for(int i = 0; i < 1; i++)
             {
                 //everything is out of order, order is, run through dictionary,
                 //then convert to ascii, then create binary of that, 
@@ -67,20 +67,42 @@ namespace Encryption.HashFunction
                 //peform xor using original and inverted string
                 string binaryAfterXor = XorGate(invertedBinary, binaryRep);
 
-                //turns it back into a string for use next round
-                finalProduct = BinaryToString(binaryRep);
+                //turns it back into a string of ascii numbers for use next round
+                string asciiString = BinaryToCharString(binaryRep);
 
-                Console.WriteLine(invertedBinary.ToString());
-                Console.WriteLine("-----------");
-                Console.WriteLine(binaryRep.ToString());
-                Console.WriteLine("***********");
-                Console.WriteLine(binaryAfterXor.ToString());
-                Console.WriteLine("//////////////");
-                Console.WriteLine(finalProduct);
+                finalProduct = AsciiToString(asciiString);
+
+                Console.WriteLine("Binary: " + binaryRep.ToString());
+                Console.WriteLine("Inverted Binary: " + invertedBinary.ToString());
+                Console.WriteLine("binary Xor: " + binaryAfterXor.ToString());
+                Console.WriteLine("Ascii: " + asciiString + " " + asciiString.Length);
 
             }
 
             return finalProduct;
+        }
+
+        public static string AsciiToString(string asciiNumbers)
+        {
+            if (asciiNumbers == null || asciiNumbers.Length % 4 != 0)
+            {
+                throw new ArgumentException("Input string must contain a multiple of 3 characters.");
+            }
+
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < asciiNumbers.Length; i += 4)
+            {
+                string asciiValueStr = asciiNumbers.Substring(i, 4);
+                if (int.TryParse(asciiValueStr, out int asciiValue))
+                {
+                    result.Append((char)asciiValue);
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid ASCII value detected.");
+                }
+            }
+            return result.ToString();
         }
 
         private static string StringToBinary(string input)
@@ -95,7 +117,7 @@ namespace Encryption.HashFunction
             return output;
         }
 
-        static string BinaryToString(string binary)
+        static string BinaryToCharString(string binary)
         {
             if (binary.Length % 8 != 0)
                 throw new ArgumentException("Binary string length must be a multiple of 8.");
