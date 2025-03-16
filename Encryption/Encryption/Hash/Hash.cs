@@ -10,16 +10,7 @@ namespace Encryption.HashFunction
 {
     internal class Hash
     {
-        //the magic dictionary
-        private static Dictionary<char, char> letterMap = new Dictionary<char, char>
-        {
-            {'A', 'Þ'}, {'B', 'M'}, {'C', 'Q'}, {'D', 'Z'}, {'E', 'L'}, {'F', 'T'}, {'G', 'Y'}, {'H', 'Œ'}, {'I', 'S'}, {'J', 'B'},
-            {'K', 'N'}, {'L', 'H'}, {'M', 'E'}, {'N', 'W'}, {'O', 'C'}, {'P', 'U'}, {'Q', 'A'}, {'R', 'K'}, {'S', 'D'}, {'T', 'F'},
-            {'U', 'P'}, {'V', 'J'}, {'W', 'G'}, {'X', 'R'}, {'Y', 'V'}, {'Z', 'I'}, {'0', '!'}, {'1', '@'}, {'2', '#'}, {'3', '$'},
-            {'4', '%'}, {'5', '^'}, {'6', '&'}, {'7', '*'}, {'8', '('}, {'9', ')'}, {'!', '0'}, {'@', '1'}, {'#', '2'}, {'$', '3'},
-            {'%', '4'}, {'^', '5'}, {'&', '6'}, {'*', '7'}, {'(', '8'}, {')', '9'}, {'Á', 'X'}, {'É', 'Ð'}, {'Í', 'Ø'}, {'Ó', 'Æ'},
-            {'Ú', 'Ñ'}, {'Ü', 'ß'}, {'Ç', 'Ğ'}, {'Ñ', 'Ş'}, {'Å', 'Œ'}, {'Ø', 'Ž'}, {'?', 'Ğ'}, {'.', 'Œ'}
-        };
+ 
 
         public String NewHash(string inputKey)
         {
@@ -36,24 +27,12 @@ namespace Encryption.HashFunction
         {
             string finalProduct = input.ToUpper();
 
-            for(int i = 0; i < 1; i++)
+            for(int i = 0; i < 3; i++)
             {
-                //everything is out of order, order is, run through dictionary,
-                //then convert to ascii, then create binary of that, 
-                //xor them togther, invert that binary, convert that into a string,
-                //then run that through the dictionary
-
-
-                //runs the input through the dictionary
-                string processedInput = string.Empty;
-                foreach (char val in finalProduct)
-                {
-                    processedInput += EncodeString(val);
-                }
 
                 //turns the given string into its ASCII representation
                 string numericalRep = string.Empty;
-                foreach (char key in processedInput)
+                foreach (char key in finalProduct)
                 {
                     numericalRep += (int)key;
                 }
@@ -61,48 +40,29 @@ namespace Encryption.HashFunction
                 //turns given string into its binary representation
                 string binaryRep = StringToBinary(numericalRep);
 
-                //inverts the given binary rep
-                string invertedBinary = BinaryInverter(binaryRep);
+                //turns it back into a string of ascii numbers
+                string asciiString = BinaryToAsciiString(binaryRep);
 
-                //peform xor using original and inverted string
-                string binaryAfterXor = XorGate(invertedBinary, binaryRep);
-
-                //turns it back into a string of ascii numbers for use next round
-                string asciiString = BinaryToCharString(binaryRep);
-
+                //converts the string of ascii numbers into ascii characters
                 finalProduct = AsciiToString(asciiString);
 
                 Console.WriteLine("Binary: " + binaryRep.ToString());
-                Console.WriteLine("Inverted Binary: " + invertedBinary.ToString());
-                Console.WriteLine("binary Xor: " + binaryAfterXor.ToString());
-                Console.WriteLine("Ascii: " + asciiString + " " + asciiString.Length);
-
+                Console.WriteLine("Ascii: " + asciiString + " " + asciiString.Replace(" ", "").Length);
             }
 
             return finalProduct;
         }
 
-        public static string AsciiToString(string asciiNumbers)
+        //turns acsii numbers into ascii characters
+        public static string AsciiToString(string input)
         {
-            if (asciiNumbers == null || asciiNumbers.Length % 4 != 0)
-            {
-                throw new ArgumentException("Input string must contain a multiple of 3 characters.");
-            }
+            // Split the input string into an array of strings, each representing a decimal value
+            string[] decimalValues = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < asciiNumbers.Length; i += 4)
-            {
-                string asciiValueStr = asciiNumbers.Substring(i, 4);
-                if (int.TryParse(asciiValueStr, out int asciiValue))
-                {
-                    result.Append((char)asciiValue);
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid ASCII value detected.");
-                }
-            }
-            return result.ToString();
+            // Convert each decimal value to its corresponding ASCII character and join them into a single string
+            string asciiString = string.Concat(decimalValues.Select(decimalValue => (char)int.Parse(decimalValue)));
+
+            return asciiString;
         }
 
         private static string StringToBinary(string input)
@@ -117,69 +77,31 @@ namespace Encryption.HashFunction
             return output;
         }
 
-        static string BinaryToCharString(string binary)
+        static string BinaryToAsciiString(string binary)
         {
+            binary = binary.Replace(" ", "");
+
             if (binary.Length % 8 != 0)
                 throw new ArgumentException("Binary string length must be a multiple of 8.");
 
             StringBuilder textBuilder = new StringBuilder();
+            int tracking = 0;
             for (int i = 0; i < binary.Length; i += 8)
             {
                 string byteString = binary.Substring(i, 8);
                 int asciiValue = Convert.ToInt32(byteString, 2);
                 textBuilder.Append((char)asciiValue);
+                tracking++;
+
+                if (tracking == 2)
+                {
+                    textBuilder.Append(' ');
+                    tracking = 0;
+                }
             }
 
             return textBuilder.ToString();
-        }
-        //Xor gate
-        private static string XorGate(string input1, string input2)
-        {
-            string output = string.Empty;
 
-            for (int i = 0; i < input1.Length; i++)
-            { 
-                if (input1[i] == '1' && input2[i] == '1')
-                {
-                    output += '0';
-                }
-                else if (input1[i] == '0' && input2[i] == '0')
-                {
-                    output += '0';
-                }
-                else if (input1[i] == '1' && input2[i] == '0')
-                {
-                    output += '1';
-                }
-                else if (input1[i] == '0' && input2[i] == '1')
-                {
-                    output += '1';
-                }
-            }
-
-           // Console.WriteLine(output);
-
-            return output;
-        }
-
-        //takes a given binary string and inverts it
-        private static string BinaryInverter(string input)
-        {
-            string output = string.Empty;
-
-            foreach (char item in input)
-            {
-                if (item == '1')
-                {
-                    output += '0';
-                }
-                else
-                {
-                    output += '1';
-                }
-            }
-
-            return output;
         }
 
         //converts characters from ASCII to binary
@@ -200,21 +122,5 @@ namespace Encryption.HashFunction
 
             return input.Substring(0, 32);
         }
-
-        // takes a given character and swaps it with its character from the dictionary
-        private static char EncodeString(char input)
-        {
-            string modInput = input.ToString();
-            char result = ' ';
-            foreach (char c in modInput)
-            {
-                if (letterMap.ContainsKey(c))
-                    result += letterMap[c];
-                else
-                    result += c;
-            }
-            return result;
-        }
-
     }
 }
