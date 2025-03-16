@@ -14,17 +14,17 @@ namespace Encryption.HashFunction
 
         public String NewHash(string inputKey)
         {
-            string proccessedString = string.Empty;
-            string hashedString;
-
-            proccessedString = RepeatOrTrimString(inputKey);
-            hashedString = HashGivenString(proccessedString);
+            string hashedString = HashGivenString(inputKey);
 
             return hashedString;
         }
 
         private static string HashGivenString(string input)
         {
+            //take the input and pad it
+            input = PadInput(input);
+
+            //convert to uppercase
             string finalProduct = input.ToUpper();
 
             for(int i = 0; i < 3; i++)
@@ -110,17 +110,51 @@ namespace Encryption.HashFunction
             return Convert.ToString(ascii, 2).PadLeft(8, '0'); // Converts to binary with 8-bit padding
         }
 
-        //takes the oringnal string and makes it 32 characters long
-        private static string RepeatOrTrimString(string input)
+        //takes the oringnal string and makes it 64 characters long
+        private static string PadInput(string input)
         {
-            if (string.IsNullOrEmpty(input)) return new string(' ', 32); 
+            string output = string.Empty;
 
-            while (input.Length < 32)
+            //turns the given string into its ASCII representation
+            string numericalRep = string.Empty;
+            foreach (char key in input)
             {
-                input += input;
+                numericalRep += (int)key;
             }
 
-            return input.Substring(0, 32);
+            //turns given string into its binary representation
+            string binaryRep = StringToBinary(numericalRep);
+
+            //captures the length of the message before padding
+            int length = binaryRep.Length;
+
+            //does the padding
+            binaryRep += '1';
+            while (binaryRep.Length < 488) 
+            {
+                binaryRep += '0';
+            }
+
+            //add the length of the message
+            int lengthAsAscii = (int)binaryRep.Length;
+            binaryRep += StringToBinary(lengthAsAscii.ToString());
+
+            //add spaces every 16 chars so we can use the function I already made
+            for (int i = 0; i <= binaryRep.Length; i++)
+            {
+                if ((i % 16) == 0)
+                {
+                    binaryRep = binaryRep.Insert(i, " ");
+                }
+            }
+
+            string binaryOutput = BinaryToAsciiString(binaryRep);
+            output = AsciiToString(binaryOutput);
+
+            //Console.WriteLine(binaryRep + " " + binaryRep.Replace(" ", "").Length);
+            Console.WriteLine(output);
+
+            return output;
         }
     }
 }
