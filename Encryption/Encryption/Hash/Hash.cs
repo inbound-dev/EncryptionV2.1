@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Drawing.Text;
 using System.Linq;
+using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -10,114 +12,17 @@ namespace Encryption.HashFunction
 {
     internal class Hash
     {
- 
-
         public String NewHash(string inputKey)
         {
-            string hashedString = HashGivenString(inputKey);
+            List<String> words = new List<String>();
+            List<String> initHVals = SetHVals();
+            //List<String> initKVals = SetKVals();
 
-            return hashedString;
-        }
-
-        private static string HashGivenString(string input)
-        {
-            //take the input and pad it
-            
-
-            //convert to uppercase
-            string finalProduct = input.ToUpper();
-
-            for(int i = 0; i < 3; i++)
-            {
-
-                //turns the given string into its ASCII representation
-                string numericalRep = string.Empty;
-                foreach (char key in finalProduct)
-                {
-                    numericalRep += (int)key;
-                }
-
-                //turns given string into its binary representation
-                string binaryRep = StringToBinary(numericalRep);
-
-                //turns it back into a string of ascii numbers
-                string asciiString = BinaryToAsciiString(binaryRep);
-
-                //converts the string of ascii numbers into ascii characters
-                finalProduct = AsciiToString(asciiString);
-
-                Console.WriteLine("Binary: " + binaryRep.ToString());
-                Console.WriteLine("Ascii: " + asciiString + " " + asciiString.Replace(" ", "").Length);
-            }
-
-            return finalProduct;
-        }
-
-        //turns acsii numbers into ascii characters
-        public static string AsciiToString(string input)
-        {
-            // Split the input string into an array of strings, each representing a decimal value
-            string[] decimalValues = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-            // Convert each decimal value to its corresponding ASCII character and join them into a single string
-            string asciiString = string.Concat(decimalValues.Select(decimalValue => (char)int.Parse(decimalValue)));
-
-            return asciiString;
-        }
-
-        private static string StringToBinary(string input)
-        {
-            string output = string.Empty;
-
-            foreach (char val in input)
-            {
-                output += AsciiToBinary(val);
-            }
-
-            return output;
-        }
-
-        static string BinaryToAsciiString(string binary)
-        {
-            binary = binary.Replace(" ", "");
-
-            if (binary.Length % 8 != 0)
-                throw new ArgumentException("Binary string length must be a multiple of 8.");
-
-            StringBuilder textBuilder = new StringBuilder();
-            int tracking = 0;
-            for (int i = 0; i < binary.Length; i += 8)
-            {
-                string byteString = binary.Substring(i, 8);
-                int asciiValue = Convert.ToInt32(byteString, 2);
-                textBuilder.Append((char)asciiValue);
-                tracking++;
-
-                if (tracking == 2)
-                {
-                    textBuilder.Append(' ');
-                    tracking = 0;
-                }
-            }
-
-            return textBuilder.ToString();
-
-        }
-
-        //converts characters from ASCII to binary
-        private static string AsciiToBinary(int ascii)
-        {
-            return Convert.ToString(ascii, 2).PadLeft(8, '0'); // Converts to binary with 8-bit padding
-        }
-
-        //takes the oringnal string and makes it 64 characters long
-        private static string PadInput(string input)
-        {
             string output = string.Empty;
 
             //turns the given string into its ASCII representation
             string numericalRep = string.Empty;
-            foreach (char key in input)
+            foreach (char key in inputKey)
             {
                 numericalRep += (int)key;
             }
@@ -130,7 +35,7 @@ namespace Encryption.HashFunction
 
             //does the padding
             binaryRep += '1';
-            while (binaryRep.Length < 488) 
+            while (binaryRep.Length < 488)
             {
                 binaryRep += '0';
             }
@@ -139,22 +44,149 @@ namespace Encryption.HashFunction
             int lengthAsAscii = (int)binaryRep.Length;
             binaryRep += StringToBinary(lengthAsAscii.ToString());
 
-            //add spaces every 16 chars so we can use the function I already made
+            //add spaces every 32 chars
             for (int i = 0; i <= binaryRep.Length; i++)
             {
-                if ((i % 16) == 0)
+                if ((i % 32) == 0)
                 {
                     binaryRep = binaryRep.Insert(i, " ");
+                    words.Add(binaryRep);
                 }
             }
 
-            string binaryOutput = BinaryToAsciiString(binaryRep);
-            output = AsciiToString(binaryOutput);
+            Console.WriteLine(binaryRep);
 
-            //Console.WriteLine(binaryRep + " " + binaryRep.Replace(" ", "").Length);
-            Console.WriteLine(output);
+
+            return binaryRep;
+        }
+
+       //returns the H val for the first 8 prime numbers
+       static List<String> SetHVals()
+        {
+
+            //first get the first 8 prime numbers
+            int count = 0;
+            Int16 num = 2;
+            List<Int16> primeNums = new List<Int16>();
+
+            while (count < 8)
+            {
+                if (IsPrime(num))
+                {
+                    primeNums.Add(num);
+                    count++;
+                }
+                num++;
+            }
+
+            //then get their square root
+            List<double> sqrts = new List<double>();
+
+            foreach (var item in primeNums)
+            {
+                sqrts.Add(GetSquareRootFractionalPart(item));
+            }
+
+            //then convert only the fractional part to binary
+            List<String> binary = new List<String>();
+
+            foreach (var item in sqrts)
+            {
+                binary.Add(ConvertFractionToBinary(item));
+            }
+
+            //then convert all that binary to hex for the final words
+            List<String> outputWords = new List<String>();
+            foreach (var item in binary)
+            {
+                outputWords.Add(BinaryToHex(item));
+            }
+
+            foreach (var item in outputWords)
+            {
+                Console.WriteLine(item);
+            }
+
+            return outputWords;
+        }
+
+        //converts any given double's fractional section into binary
+        static string ConvertFractionToBinary(double number)
+        {
+            double fractionalPart = number - Math.Floor(number); // Extract fractional part
+            if (fractionalPart == 0) return "0"; // If no fractional part, return "0"
+
+            string binary = "";
+            int precision = 32; // Limit precision to avoid infinite loops for repeating fractions
+
+            while (fractionalPart > 0 && precision > 0)
+            {
+                fractionalPart *= 2;
+                int bit = (int)Math.Floor(fractionalPart);
+                binary += bit.ToString();
+                fractionalPart -= bit;
+                precision--;
+            }
+
+            return binary;
+        }
+
+        //gets the fractional section of the square root of any number
+        static double GetSquareRootFractionalPart(int num)
+        {
+            double sqrtValue = Math.Sqrt(num);
+            return sqrtValue - Math.Floor(sqrtValue);
+        }
+
+        //checks if given number is a prime number
+        static bool IsPrime(int number)
+        {
+            if (number < 2)
+                return false;
+
+            for (int i = 2; i * i <= number; i++)
+            {
+                if (number % i == 0)
+                    return false;
+            }
+            return true;
+        }
+
+        //turns any given binary string into hex
+        static string BinaryToHex(string binary)
+        {
+            if (string.IsNullOrEmpty(binary))
+                throw new ArgumentException("Input cannot be null or empty");
+
+            // Ensure the length is a multiple of 4 for proper conversion
+            int remainder = binary.Length % 4;
+            if (remainder != 0)
+            {
+                binary = binary.PadLeft(binary.Length + (4 - remainder), '0');
+            }
+
+            // Convert binary to integer and then to hexadecimal
+            int decimalValue = Convert.ToInt32(binary, 2);
+            return decimalValue.ToString("X");
+        }
+
+        //turns any given string into its acscii values
+        private static string StringToBinary(string input)
+        {
+            string output = string.Empty;
+
+            foreach (char val in input)
+            {
+                output += AsciiToBinary(val);
+            }
 
             return output;
+        } 
+
+        //converts characters from ASCII to binary
+        private static string AsciiToBinary(int ascii)
+        {
+            return Convert.ToString(ascii, 2).PadLeft(8, '0'); // Converts to binary with 8-bit padding
         }
     }
 }
