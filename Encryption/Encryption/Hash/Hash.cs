@@ -22,7 +22,7 @@ namespace Encryption.HashFunction
         private static string HashGivenString(string input)
         {
             //take the input and pad it
-            input = PadInput(input);
+            
 
             //convert to uppercase
             string finalProduct = input.ToUpper();
