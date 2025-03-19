@@ -14,9 +14,10 @@ namespace Encryption.HashFunction
     {
         public String NewHash(string inputKey)
         {
-            List<String> words = new List<String>();
+            List<String> message = new List<String>();
+            List<String> wordSchedulde = new List<String>();
             List<String> initHVals = SetHVals();
-            //List<String> initKVals = SetKVals();
+            List<String> initKVals = SetKVals();
 
             string output = string.Empty;
 
@@ -50,19 +51,79 @@ namespace Encryption.HashFunction
                 if ((i % 32) == 0)
                 {
                     binaryRep = binaryRep.Insert(i, " ");
-                    words.Add(binaryRep);
+                    message.Add(binaryRep);
                 }
             }
 
-            Console.WriteLine(binaryRep);
+            //takes the message list and returns the wordSchedule list
+            wordSchedulde = CreateWordSchedule(message);
 
 
             return binaryRep;
         }
 
+        //create word schedule
+        static List<String> CreateWordSchedule(List<String> input)
+        { 
+            List<String> result = new List<String>();
+
+            //adds the first 16 words to the schedule
+            foreach (var item in input)
+            {
+                result.Add(item);
+            }
+
+            return result;
+        }
+
+        //returns the K val for the first 64 prime numbers
+        static List<String> SetKVals()
+        {
+
+            //first get the first 8 prime numbers
+            int count = 0;
+            Int16 num = 2;
+            List<Int16> primeNums = new List<Int16>();
+
+            while (count < 64)
+            {
+                if (IsPrime(num))
+                {
+                    primeNums.Add(num);
+                    count++;
+                }
+                num++;
+            }
+
+            //then get their cubed root
+            List<double> sqrts = new List<double>();
+
+            foreach (var item in primeNums)
+            {
+                sqrts.Add(GetCubeRootFractionalPart(item));
+            }
+
+            //then convert only the fractional part to binary
+            List<String> binary = new List<String>();
+
+            foreach (var item in sqrts)
+            {
+                binary.Add(ConvertFractionToBinary(item));
+            }
+
+            //then convert all that binary to hex for the final words
+            List<String> outputWords = new List<String>();
+            foreach (var item in binary)
+            {
+                outputWords.Add(BinaryToHex(item));
+            }
+
+            return outputWords;
+        }
+
        //returns the H val for the first 8 prime numbers
        static List<String> SetHVals()
-        {
+       {
 
             //first get the first 8 prime numbers
             int count = 0;
@@ -102,11 +163,6 @@ namespace Encryption.HashFunction
                 outputWords.Add(BinaryToHex(item));
             }
 
-            foreach (var item in outputWords)
-            {
-                Console.WriteLine(item);
-            }
-
             return outputWords;
         }
 
@@ -136,6 +192,13 @@ namespace Encryption.HashFunction
         {
             double sqrtValue = Math.Sqrt(num);
             return sqrtValue - Math.Floor(sqrtValue);
+        }
+
+        //gets the fractional section of the cubed root of any number
+        static double GetCubeRootFractionalPart(int num)
+        {
+            double cubeRoot = Math.Pow(num, 1.0 / 3.0);
+            return cubeRoot - Math.Floor(cubeRoot);
         }
 
         //checks if given number is a prime number
