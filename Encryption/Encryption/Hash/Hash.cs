@@ -79,10 +79,17 @@ namespace Encryption.HashFunction
             {
                 int currentPos = result.Count;
 
+                Console.WriteLine("wordlist length: " + currentPos);
+
                 //formula for each word: w(t) = sigmaOne(w(t-2)) + w(t-7) + SigmaZero(w(t-15)) + w(t-16)
-                string currWord = SigmaOne(message[currentPos - 2]) + message[currentPos-7] + SigmaZero(message[currentPos-15]) + message[currentPos-16];
+                //string currWord = SigmaOne(message[currentPos - 2]) + message[currentPos-7] + SigmaZero(message[currentPos-14]) + message[currentPos-15];
+                string stage1 = SigmaOne(message[currentPos - 2]) + message[currentPos - 7];
+                string stage2 = SigmaZero(message[currentPos - 14]) + message[currentPos - 15];
+                string currWord = stage1 + stage2;
 
                 result.Add(currWord);
+                Console.WriteLine(currWord);
+                Console.WriteLine(currWord.Length);
             }
 
             return result;
@@ -93,12 +100,16 @@ namespace Encryption.HashFunction
             string output = "";
 
             //right rotate 17
+            string stage1 = RotateBinaryString(input, 17);
 
             //right rotate 19
+            string stage2 = RotateBinaryString(stage1, 19);
 
             //right shift 10
+            string stage3 = RightShiftBinaryString(stage2, 10);
 
             //xor the result of all 3 operations
+            output = TripleInputXorGate(stage1, stage2, stage3);
 
             return output;
         }
@@ -108,13 +119,13 @@ namespace Encryption.HashFunction
             string output = "";
 
             //right rotate 7
-            string stage1;
+            string stage1 = RotateBinaryString(input, 7);
 
             //right rotate 18
-            string stage2;
+            string stage2 = RotateBinaryString(stage1, 18);
 
             //right shift 3
-            string stage3;
+            string stage3 = RightShiftBinaryString(stage2, 3);
 
             //xor the result of all 3 operations
             output = TripleInputXorGate(stage1, stage2, stage3);
@@ -122,13 +133,63 @@ namespace Encryption.HashFunction
             return output;
         }
 
+        //shifts any given binary string to the right
+        static string RightShiftBinaryString(string binary, int shiftAmount)
+        {
+            int length = binary.Length;
+            shiftAmount %= length; // Ensure shift doesn't exceed the string length
+
+            string shifted = new string('0', shiftAmount) + binary.Substring(0, length - shiftAmount);
+            return shifted;
+        }
+
+        //takes given binary string and rotates it
+        static string RotateBinaryString(string binary, int shift)
+        {
+            int length = binary.Length;
+            shift %= length; // Ensure shift is within bounds
+            return binary.Substring(shift) + binary.Substring(0, shift);
+        }
+
+        //takes three strings of binary and xors them
         static string TripleInputXorGate(string input1, string input2, string input3)
         {
             string output = "";
              
-            for(int i = 0; i <= input1.Length; i++)
+            for(int i = 0; i < input1.Length; i++)
             {
-
+                if (input1[i] == '0' && input2[i] == '0' && input3[3] == '0')
+                {
+                    output += "0";
+                }
+                if (input1[i] == '0' && input2[i] == '0' && input3[3] == '1')
+                {
+                    output += "1";
+                }
+                if (input1[i] == '0' && input2[i] == '1' && input3[3] == '0')
+                {
+                    output += "1";
+                }
+                if (input1[i] == '1' && input2[i] == '0' && input3[3] == '0')
+                {
+                    output += "1";
+                }
+                if (input1[i] == '0' && input2[i] == '1' && input3[3] == '1')
+                {
+                    output += "0";
+                }
+                if (input1[i] == '1' && input2[i] == '1' && input3[3] == '0')
+                {
+                    output += "0";
+                }
+                if (input1[i] == '1' && input2[i] == '0' && input3[3] == '1')
+                {
+                    output += "0";
+                }
+                if (input1[i] == '1' && input2[i] == '1' && input3[3] == '1')
+                {
+                    output += "1";
+                }
             }
 
             return output;
