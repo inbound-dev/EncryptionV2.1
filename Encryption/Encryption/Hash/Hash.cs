@@ -7,19 +7,19 @@ using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Windows.Forms;
 
 namespace Encryption.HashFunction
 {
     internal class Hash
     {
+        //message is global as it is used in multiple places
+        private static List<String> message = new List<String>();
         public String NewHash(string inputKey)
         {
-            List<String> message = new List<String>();
             List<String> wordSchedulde = new List<String>();
             List<String> initHVals = SetHVals();
             List<String> initKVals = SetKVals();
-
-            string output = string.Empty;
 
             //turns the given string into its ASCII representation
             string numericalRep = string.Empty;
@@ -59,6 +59,7 @@ namespace Encryption.HashFunction
             wordSchedulde = CreateWordSchedule(message);
 
 
+
             return binaryRep;
         }
 
@@ -73,7 +74,64 @@ namespace Encryption.HashFunction
                 result.Add(item);
             }
 
+            //create the rest of the words in the schedule
+            while (result.Count < 64)
+            {
+                int currentPos = result.Count;
+
+                //formula for each word: w(t) = sigmaOne(w(t-2)) + w(t-7) + SigmaZero(w(t-15)) + w(t-16)
+                string currWord = SigmaOne(message[currentPos - 2]) + message[currentPos-7] + SigmaZero(message[currentPos-15]) + message[currentPos-16];
+
+                result.Add(currWord);
+            }
+
             return result;
+        }
+
+        static string SigmaOne(string input)
+        {
+            string output = "";
+
+            //right rotate 17
+
+            //right rotate 19
+
+            //right shift 10
+
+            //xor the result of all 3 operations
+
+            return output;
+        }
+
+        static string SigmaZero(string input)
+        {
+            string output = "";
+
+            //right rotate 7
+            string stage1;
+
+            //right rotate 18
+            string stage2;
+
+            //right shift 3
+            string stage3;
+
+            //xor the result of all 3 operations
+            output = TripleInputXorGate(stage1, stage2, stage3);
+
+            return output;
+        }
+
+        static string TripleInputXorGate(string input1, string input2, string input3)
+        {
+            string output = "";
+             
+            for(int i = 0; i <= input1.Length; i++)
+            {
+
+            }
+
+            return output;
         }
 
         //returns the K val for the first 64 prime numbers
