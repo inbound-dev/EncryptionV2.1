@@ -55,6 +55,13 @@ namespace Encryption.HashFunction
                 }
             }
 
+            //foreach (var item in )
+            //{
+                
+            //}
+
+
+
             //takes the message list and returns the wordSchedule list
             wordSchedulde = CreateWordSchedule(message);
 
@@ -72,24 +79,25 @@ namespace Encryption.HashFunction
             foreach (var item in input)
             {
                 result.Add(item);
+                Console.WriteLine("Word: " + item.Length + " " + item);
             }
 
             //create the rest of the words in the schedule
-            while (result.Count < 64)
+            int currentPos = result.Count;
+            while (currentPos < 24)
             {
-                int currentPos = result.Count;
 
-                Console.WriteLine("wordlist length: " + currentPos);
+                Console.WriteLine("wordlist length: " + result.Count);
+                Console.WriteLine("current pos: " + currentPos);
 
                 //formula for each word: w(t) = sigmaOne(w(t-2)) + w(t-7) + SigmaZero(w(t-15)) + w(t-16)
-                //string currWord = SigmaOne(message[currentPos - 2]) + message[currentPos-7] + SigmaZero(message[currentPos-14]) + message[currentPos-15];
-                string stage1 = SigmaOne(message[currentPos - 2]) + message[currentPos - 7];
-                string stage2 = SigmaZero(message[currentPos - 14]) + message[currentPos - 15];
-                string currWord = stage1 + stage2;
+                string currWord = SigmaOne(result[currentPos - 2]) + result[currentPos-7] + SigmaZero(result[currentPos-15]) + result[currentPos-16];
 
                 result.Add(currWord);
                 Console.WriteLine(currWord);
                 Console.WriteLine(currWord.Length);
+
+                currentPos++;
             }
 
             return result;
@@ -189,6 +197,10 @@ namespace Encryption.HashFunction
                 if (input1[i] == '1' && input2[i] == '1' && input3[3] == '1')
                 {
                     output += "1";
+                }
+                else
+                {
+                    output += "";
                 }
             }
 
