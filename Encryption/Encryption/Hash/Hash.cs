@@ -91,7 +91,7 @@ namespace Encryption.HashFunction
                 Console.WriteLine("current pos: " + currentPos);
 
                 //formula for each word: w(t) = sigmaOne(w(t-2)) + w(t-7) + SigmaZero(w(t-15)) + w(t-16)
-                string currWord = SigmaOne(result[currentPos - 2]) + result[currentPos-7] + SigmaZero(result[currentPos-15]) + result[currentPos-16];
+                string currWord = XorGate(SigmaOne(result[currentPos - 2]), result[currentPos-7], SigmaZero(result[currentPos-15]), result[currentPos-16]);
 
                 result.Add(currWord);
                 Console.WriteLine(currWord);
@@ -117,7 +117,7 @@ namespace Encryption.HashFunction
             string stage3 = RightShiftBinaryString(stage2, 10);
 
             //xor the result of all 3 operations
-            output = TripleInputXorGate(stage1, stage2, stage3);
+            output = XorGate(stage1, stage2, stage3);
 
             return output;
         }
@@ -136,7 +136,7 @@ namespace Encryption.HashFunction
             string stage3 = RightShiftBinaryString(stage2, 3);
 
             //xor the result of all 3 operations
-            output = TripleInputXorGate(stage1, stage2, stage3);
+            output = XorGate(stage1, stage2, stage3);
 
             return output;
         }
@@ -159,8 +159,57 @@ namespace Encryption.HashFunction
             return binary.Substring(shift) + binary.Substring(0, shift);
         }
 
+        //takes 4 binary strings and xors them
+        static string XorGate(string input1, string input2, string input3, string input4)
+        {
+            string output = "";
+
+            for (int i = 0; i < input1.Length; i++)
+            {
+                if (input1[i] == '0' && input2[i] == '0' && input3[i] == '0' && input4[i] == '0')
+                {
+                    output += "0";
+                }
+                if (input1[i] == '0' && input2[i] == '1' && input3[i] == '0' && input4[i] == '0')
+                {
+                    output += "0";
+                }
+                if (input1[i] == '1' && input2[i] == '0' && input3[i] == '0' && input4[i] == '0')
+                {
+                    output += "0";
+                }
+                if (input1[i] == '1' && input2[i] == '1' && input3[i] == '1' && input4[i] == '0')
+                {
+                    output += "1";
+                }
+                if (input1[i] == '0' && input2[i] == '0' && input3[i] == '0' && input4[i] == '1')
+                {
+                    output += "1";
+                }
+                if (input1[i] == '0' && input2[i] == '1' && input3[i] == '0' && input4[i] == '1')
+                {
+                    output += "1";
+                }
+                if (input1[i] == '1' && input2[i] == '0' && input3[i] == '0' && input4[i] == '1')
+                {
+                    output += "1";
+                }
+                if (input1[i] == '1' && input2[i] == '1' && input3[i] == '1' && input4[i] == '1')
+                {
+                    output += "1";
+                }
+                else
+                {
+                    output += "";
+                    Console.WriteLine("err");
+                }
+            }
+
+            return output;
+        }
+
         //takes three strings of binary and xors them
-        static string TripleInputXorGate(string input1, string input2, string input3)
+        static string XorGate(string input1, string input2, string input3)
         {
             string output = "";
              
@@ -201,6 +250,7 @@ namespace Encryption.HashFunction
                 else
                 {
                     output += "";
+                    //Console.WriteLine("err");
                 }
             }
 

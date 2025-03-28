@@ -72,6 +72,9 @@ namespace Encryption
         {
             statusLbl.Text = "Encrypting.......";
 
+            //get the current text from the password box
+            key = passwordBox.Text;
+
             //uses hashfunction to create a hash of given password
             Hash hashfunc = new Hash();
             hash = hashfunc.NewHash(key);
@@ -79,7 +82,7 @@ namespace Encryption
             Console.WriteLine("Key: " + hash);
 
             //encrypts the file with the given key
-            EncryptionFiles.Encryption encryption = new EncryptionFiles.Encryption(fileName, key);
+            EncryptionFiles.Encryption encryption = new EncryptionFiles.Encryption(fileName, hash);
 
             statusLbl.Text = "Done";
         }
@@ -94,7 +97,7 @@ namespace Encryption
 
         private void passwordBox_KeyDown(object sender, KeyEventArgs e)
         {
-            key = passwordBox.Text;
+            
         }
 
         private void resetDefualt()
