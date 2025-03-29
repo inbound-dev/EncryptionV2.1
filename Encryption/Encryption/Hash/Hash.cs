@@ -4,6 +4,7 @@ using System.ComponentModel.Design;
 using System.Drawing.Text;
 using System.Linq;
 using System.Net.Security;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -78,8 +79,9 @@ namespace Encryption.HashFunction
             //adds the first 16 words to the schedule
             foreach (var item in input)
             {
-                result.Add(item);
-                Console.WriteLine("Word: " + item.Length + " " + item);
+                string var = item.Remove(' ');
+                result.Add(var);
+                Console.WriteLine("Word: " + var.Length + " " + var);
             }
 
             //create the rest of the words in the schedule
@@ -91,11 +93,14 @@ namespace Encryption.HashFunction
                 Console.WriteLine("current pos: " + currentPos);
 
                 //formula for each word: w(t) = sigmaOne(w(t-2)) + w(t-7) + SigmaZero(w(t-15)) + w(t-16)
-                string currWord = XorGate(SigmaOne(result[currentPos - 2]), result[currentPos-7], SigmaZero(result[currentPos-15]), result[currentPos-16]);
+                string currWord = XorGate(SigmaOne(result[currentPos - 2]), result[currentPos - 7], SigmaZero(result[currentPos - 15]), result[currentPos - 16]);
+                //string currWord = (SigmaOne(result[currentPos - 2]) + result[currentPos - 7] + SigmaZero(result[currentPos - 15]) + result[currentPos - 16]);
 
                 result.Add(currWord);
                 Console.WriteLine(currWord);
                 Console.WriteLine(currWord.Length);
+
+
 
                 currentPos++;
             }
@@ -118,8 +123,10 @@ namespace Encryption.HashFunction
 
             //xor the result of all 3 operations
             output = XorGate(stage1, stage2, stage3);
-
-            return output;
+            
+            Console.WriteLine("Sigma One: " + output);
+            Console.WriteLine("Sigma One Length: " + output.Length);
+            return output; 
         }
 
         static string SigmaZero(string input)
@@ -137,6 +144,9 @@ namespace Encryption.HashFunction
 
             //xor the result of all 3 operations
             output = XorGate(stage1, stage2, stage3);
+
+            Console.WriteLine("Sigma Zero: " + output);
+            Console.WriteLine("Sigma Zero: " + output.Length);
 
             return output;
         }
@@ -162,99 +172,49 @@ namespace Encryption.HashFunction
         //takes 4 binary strings and xors them
         static string XorGate(string input1, string input2, string input3, string input4)
         {
-            string output = "";
+            StringBuilder output = new StringBuilder(input1.Length);
 
-            for (int i = 0; i < input1.Length; i++)
+            if (input1.Length != input2.Length && input2.Length != input3.Length && input3.Length != input4.Length)
             {
-                if (input1[i] == '0' && input2[i] == '0' && input3[i] == '0' && input4[i] == '0')
-                {
-                    output += "0";
-                }
-                if (input1[i] == '0' && input2[i] == '1' && input3[i] == '0' && input4[i] == '0')
-                {
-                    output += "0";
-                }
-                if (input1[i] == '1' && input2[i] == '0' && input3[i] == '0' && input4[i] == '0')
-                {
-                    output += "0";
-                }
-                if (input1[i] == '1' && input2[i] == '1' && input3[i] == '1' && input4[i] == '0')
-                {
-                    output += "1";
-                }
-                if (input1[i] == '0' && input2[i] == '0' && input3[i] == '0' && input4[i] == '1')
-                {
-                    output += "1";
-                }
-                if (input1[i] == '0' && input2[i] == '1' && input3[i] == '0' && input4[i] == '1')
-                {
-                    output += "1";
-                }
-                if (input1[i] == '1' && input2[i] == '0' && input3[i] == '0' && input4[i] == '1')
-                {
-                    output += "1";
-                }
-                if (input1[i] == '1' && input2[i] == '1' && input3[i] == '1' && input4[i] == '1')
-                {
-                    output += "1";
-                }
-                else
-                {
-                    output += "";
-                    Console.WriteLine("err");
-                }
+                Console.WriteLine("XOR inputs are not the same length");
+                Console.WriteLine(input1.Length);
+                Console.WriteLine(input2.Length);
+                Console.WriteLine(input3.Length);
+                Console.WriteLine(input4.Length);
             }
 
-            return output;
+            for (int i = 0; i < input1.Length - 1; i++)
+            {
+                int bit1 = input1[i] - '0';
+                int bit2 = input2[i] - '0';
+                int bit3 = input3[i] - '0';
+                int bit4 = input4[i] - '0';
+
+                int xorResult = bit1 ^ bit2 ^ bit3 ^ bit4; // XOR of 4 bits
+
+                output.Append(xorResult);
+            }
+
+            return output.ToString();
         }
 
         //takes three strings of binary and xors them
         static string XorGate(string input1, string input2, string input3)
         {
-            string output = "";
-             
-            for(int i = 0; i < input1.Length; i++)
+            StringBuilder output = new StringBuilder(input1.Length);
+
+            for (int i = 0; i < input1.Length; i++)
             {
-                if (input1[i] == '0' && input2[i] == '0' && input3[3] == '0')
-                {
-                    output += "0";
-                }
-                if (input1[i] == '0' && input2[i] == '0' && input3[3] == '1')
-                {
-                    output += "1";
-                }
-                if (input1[i] == '0' && input2[i] == '1' && input3[3] == '0')
-                {
-                    output += "1";
-                }
-                if (input1[i] == '1' && input2[i] == '0' && input3[3] == '0')
-                {
-                    output += "1";
-                }
-                if (input1[i] == '0' && input2[i] == '1' && input3[3] == '1')
-                {
-                    output += "0";
-                }
-                if (input1[i] == '1' && input2[i] == '1' && input3[3] == '0')
-                {
-                    output += "0";
-                }
-                if (input1[i] == '1' && input2[i] == '0' && input3[3] == '1')
-                {
-                    output += "0";
-                }
-                if (input1[i] == '1' && input2[i] == '1' && input3[3] == '1')
-                {
-                    output += "1";
-                }
-                else
-                {
-                    output += "";
-                    //Console.WriteLine("err");
-                }
+                int bit1 = input1[i] - '0';
+                int bit2 = input2[i] - '0';
+                int bit3 = input3[i] - '0';
+
+                int xorResult = bit1 ^ bit2 ^ bit3;
+
+                output.Append(xorResult);
             }
 
-            return output;
+            return output.ToString();
         }
 
         //returns the K val for the first 64 prime numbers
