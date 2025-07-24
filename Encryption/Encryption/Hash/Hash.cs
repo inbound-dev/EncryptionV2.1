@@ -14,7 +14,7 @@ namespace Encryption.HashFunction
 {
     internal class Hash
     {
-        //message is global as it is used in multiple places
+        //message schedule is global as it is used in multiple places
         private static List<String> message = new List<String>();
         public String NewHash(string inputKey)
         {
@@ -84,6 +84,7 @@ namespace Encryption.HashFunction
                 Console.WriteLine("Word: " + var.Length + " " + var);
             }
 
+            Console.WriteLine("test rotate " + RotateBinaryString("01000000",5));
             //create the rest of the words in the schedule
             int currentPos = result.Count;
             while (currentPos < 24)
@@ -94,13 +95,11 @@ namespace Encryption.HashFunction
 
                 //formula for each word: w(t) = sigmaOne(w(t-2)) + w(t-7) + SigmaZero(w(t-15)) + w(t-16)
                 string currWord = XorGate(SigmaOne(result[currentPos - 2]), result[currentPos - 7], SigmaZero(result[currentPos - 15]), result[currentPos - 16]);
-                //string currWord = (SigmaOne(result[currentPos - 2]) + result[currentPos - 7] + SigmaZero(result[currentPos - 15]) + result[currentPos - 16]);
+               
 
                 result.Add(currWord);
                 Console.WriteLine(currWord);
                 Console.WriteLine(currWord.Length);
-
-
 
                 currentPos++;
             }
@@ -132,15 +131,24 @@ namespace Encryption.HashFunction
         static string SigmaZero(string input)
         {
             string output = "";
+            input.Replace(" ", "");
 
+            Console.WriteLine("given input " + input);
+            
             //right rotate 7
             string stage1 = RotateBinaryString(input, 7);
+
+            Console.WriteLine("sig sero rotate length: " + stage1.Length + " " + stage1);
 
             //right rotate 18
             string stage2 = RotateBinaryString(stage1, 18);
 
+            Console.WriteLine("sig zero second rotation length: " + stage2.Length + " " + stage2);
+
             //right shift 3
             string stage3 = RightShiftBinaryString(stage2, 3);
+
+            Console.WriteLine("sig zero right shift length: " + stage3.Length + " " + stage3);
 
             //xor the result of all 3 operations
             output = XorGate(stage1, stage2, stage3);
@@ -162,12 +170,29 @@ namespace Encryption.HashFunction
         }
 
         //takes given binary string and rotates it
-        static string RotateBinaryString(string binary, int shift)
+        public static string RotateBinaryString(string binary, int rotationAmount)
         {
+            //Console.WriteLine("before rt " + binary + " " + binary.Length);
+            //binary.Replace(" ", "");
+
+            //if (string.IsNullOrEmpty(binary))
+            //    throw new ArgumentException("Input binary string cannot be null or empty.");
+
+            //if (!binary.All(c => c == '0' || c == '1'))
+            //    throw new ArgumentException("Input string must contain only binary digits (0 or 1).");
+
             int length = binary.Length;
-            shift %= length; // Ensure shift is within bounds
-            return binary.Substring(shift) + binary.Substring(0, shift);
+
+            rotationAmount = rotationAmount % length;
+
+            if (rotationAmount == 0)
+                return binary;
+
+            string rotated = binary.Substring(length - rotationAmount) + binary.Substring(0, length - rotationAmount);
+
+            return rotated;
         }
+
 
         //takes 4 binary strings and xors them
         static string XorGate(string input1, string input2, string input3, string input4)
@@ -176,11 +201,11 @@ namespace Encryption.HashFunction
 
             if (input1.Length != input2.Length && input2.Length != input3.Length && input3.Length != input4.Length)
             {
-                Console.WriteLine("XOR inputs are not the same length");
                 Console.WriteLine(input1.Length);
                 Console.WriteLine(input2.Length);
                 Console.WriteLine(input3.Length);
                 Console.WriteLine(input4.Length);
+                throw new Exception("XOR inputs are not the same length!");
             }
 
             for (int i = 0; i < input1.Length - 1; i++)
