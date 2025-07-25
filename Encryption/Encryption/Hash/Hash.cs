@@ -37,7 +37,7 @@ namespace Encryption.HashFunction
 
             //does the padding
             binaryRep += '1';
-            while (binaryRep.Length < 488)
+            while (binaryRep.Length < 448)
             {
                 binaryRep += '0';
             }
@@ -51,22 +51,13 @@ namespace Encryption.HashFunction
             {
                 if ((i % 32) == 0)
                 {
-                    binaryRep = binaryRep.Insert(i, " ");
                     message.Add(binaryRep);
+                    Console.WriteLine(binaryRep + " " + binaryRep.Length);
                 }
             }
 
-            //foreach (var item in )
-            //{
-                
-            //}
-
-
-
             //takes the message list and returns the wordSchedule list
             wordSchedulde = CreateWordSchedule(message);
-
-
 
             return binaryRep;
         }
@@ -81,13 +72,11 @@ namespace Encryption.HashFunction
             {
                 string var = item.Remove(' ');
                 result.Add(var);
-                Console.WriteLine("Word: " + var.Length + " " + var);
+                Console.WriteLine("Word: " + var.Length + " " + result.Count + " " + var);
             }
-
-            Console.WriteLine("test rotate " + RotateBinaryString("01000000",5));
             //create the rest of the words in the schedule
             int currentPos = result.Count;
-            while (currentPos < 24)
+            while (currentPos <= 24)
             {
 
                 Console.WriteLine("wordlist length: " + result.Count);
@@ -110,15 +99,26 @@ namespace Encryption.HashFunction
         static string SigmaOne(string input)
         {
             string output = "";
+            input = input.Replace(" ", "");
+            //input += "0";
+
+
+            Console.WriteLine("given input " + input.Length + " " + input);
 
             //right rotate 17
             string stage1 = RotateBinaryString(input, 17);
 
+            Console.WriteLine("sig one rotate length: " + stage1.Length + " " + stage1);
+
             //right rotate 19
             string stage2 = RotateBinaryString(stage1, 19);
 
+            Console.WriteLine("sig one second rotation length: " + stage2.Length + " " + stage2);
+
             //right shift 10
             string stage3 = RightShiftBinaryString(stage2, 10);
+
+            Console.WriteLine("sig one right shift length: " + stage3.Length + " " + stage3);
 
             //xor the result of all 3 operations
             output = XorGate(stage1, stage2, stage3);
@@ -133,25 +133,15 @@ namespace Encryption.HashFunction
             string output = "";
             input = input.Replace(" ", "");
             input += "0";
-
-            Console.WriteLine("given input " + input);
-
-            if (input.Contains(" ")) { throw new Exception("input contains a space"); }
             
             //right rotate 7
             string stage1 = RotateBinaryString(input, 7);
 
-            Console.WriteLine("sig sero rotate length: " + stage1.Length + " " + stage1);
-
             //right rotate 18
             string stage2 = RotateBinaryString(stage1, 18);
 
-            Console.WriteLine("sig zero second rotation length: " + stage2.Length + " " + stage2);
-
             //right shift 3
             string stage3 = RightShiftBinaryString(stage2, 3);
-
-            Console.WriteLine("sig zero right shift length: " + stage3.Length + " " + stage3);
 
             //xor the result of all 3 operations
             output = XorGate(stage1, stage2, stage3);
@@ -181,15 +171,6 @@ namespace Encryption.HashFunction
         //takes given binary string and rotates it
         public static string RotateBinaryString(string binary, int rotationAmount)
         {
-            //Console.WriteLine("before rt " + binary + " " + binary.Length);
-            //binary.Replace(" ", "");
-
-            //if (string.IsNullOrEmpty(binary))
-            //    throw new ArgumentException("Input binary string cannot be null or empty.");
-
-            //if (!binary.All(c => c == '0' || c == '1'))
-            //    throw new ArgumentException("Input string must contain only binary digits (0 or 1).");
-
             int length = binary.Length;
 
             rotationAmount = rotationAmount % length;
