@@ -131,9 +131,12 @@ namespace Encryption.HashFunction
         static string SigmaZero(string input)
         {
             string output = "";
-            input.Replace(" ", "");
+            input = input.Replace(" ", "");
+            input += "0";
 
             Console.WriteLine("given input " + input);
+
+            if (input.Contains(" ")) { throw new Exception("input contains a space"); }
             
             //right rotate 7
             string stage1 = RotateBinaryString(input, 7);
@@ -153,6 +156,7 @@ namespace Encryption.HashFunction
             //xor the result of all 3 operations
             output = XorGate(stage1, stage2, stage3);
 
+
             Console.WriteLine("Sigma Zero: " + output);
             Console.WriteLine("Sigma Zero: " + output.Length);
 
@@ -160,12 +164,17 @@ namespace Encryption.HashFunction
         }
 
         //shifts any given binary string to the right
-        static string RightShiftBinaryString(string binary, int shiftAmount)
+        public static string RightShiftBinaryString(string binary, int shiftAmount)
         {
-            int length = binary.Length;
-            shiftAmount %= length; // Ensure shift doesn't exceed the string length
+            // Ensure the binary string is not null or empty
+            if (string.IsNullOrEmpty(binary))
+                throw new ArgumentException("Binary string must not be null or empty.");
 
-            string shifted = new string('0', shiftAmount) + binary.Substring(0, length - shiftAmount);
+            // Clamp shiftAmount to the length of the string
+            shiftAmount = Math.Min(shiftAmount, binary.Length);
+
+            // Perform the shift
+            string shifted = new string('0', shiftAmount) + binary.Substring(0, binary.Length - shiftAmount);
             return shifted;
         }
 
@@ -208,7 +217,7 @@ namespace Encryption.HashFunction
                 throw new Exception("XOR inputs are not the same length!");
             }
 
-            for (int i = 0; i < input1.Length - 1; i++)
+            for (int i = 0; i < input1.Length; i++)
             {
                 int bit1 = input1[i] - '0';
                 int bit2 = input2[i] - '0';
