@@ -16,6 +16,9 @@ namespace Encryption.HashFunction
     {
         //message schedule is global as it is used in multiple places
         private static List<String> message = new List<String>();
+
+        //8 working variables
+        private static String a,b,c,d,e,f,g,h;
         public String NewHash(string inputKey)
         {
             List<String> wordSchedulde = new List<String>();
@@ -37,7 +40,7 @@ namespace Encryption.HashFunction
 
             //does the padding
             binaryRep += '1';
-            while (binaryRep.Length < 448)
+            while (binaryRep.Length < 480)
             {
                 binaryRep += '0';
             }
@@ -52,12 +55,23 @@ namespace Encryption.HashFunction
                 if ((i % 32) == 0)
                 {
                     message.Add(binaryRep);
-                    Console.WriteLine(binaryRep + " " + binaryRep.Length);
                 }
             }
 
             //takes the message list and returns the wordSchedule list
             wordSchedulde = CreateWordSchedule(message);
+
+            //initialize 8 working variables
+            a = HexToBinary(initHVals[0]);
+            b = HexToBinary(initKVals[1]);
+            c = HexToBinary(initKVals[2]);
+            d = HexToBinary(initKVals[3]);
+            e = HexToBinary(initKVals[4]);
+            f = HexToBinary(initKVals[5]);
+            g = HexToBinary(initKVals[6]);
+            h = HexToBinary(initKVals[7]); 
+
+            
 
             return binaryRep;
         }
@@ -72,23 +86,15 @@ namespace Encryption.HashFunction
             {
                 string var = item.Remove(' ');
                 result.Add(var);
-                Console.WriteLine("Word: " + var.Length + " " + result.Count + " " + var);
             }
             //create the rest of the words in the schedule
             int currentPos = result.Count;
             while (currentPos <= 24)
             {
-
-                Console.WriteLine("wordlist length: " + result.Count);
-                Console.WriteLine("current pos: " + currentPos);
-
                 //formula for each word: w(t) = sigmaOne(w(t-2)) + w(t-7) + SigmaZero(w(t-15)) + w(t-16)
                 string currWord = XorGate(SigmaOne(result[currentPos - 2]), result[currentPos - 7], SigmaZero(result[currentPos - 15]), result[currentPos - 16]);
-               
 
                 result.Add(currWord);
-                Console.WriteLine(currWord);
-                Console.WriteLine(currWord.Length);
 
                 currentPos++;
             }
@@ -100,31 +106,18 @@ namespace Encryption.HashFunction
         {
             string output = "";
             input = input.Replace(" ", "");
-            //input += "0";
-
-
-            Console.WriteLine("given input " + input.Length + " " + input);
 
             //right rotate 17
             string stage1 = RotateBinaryString(input, 17);
 
-            Console.WriteLine("sig one rotate length: " + stage1.Length + " " + stage1);
-
             //right rotate 19
             string stage2 = RotateBinaryString(stage1, 19);
-
-            Console.WriteLine("sig one second rotation length: " + stage2.Length + " " + stage2);
 
             //right shift 10
             string stage3 = RightShiftBinaryString(stage2, 10);
 
-            Console.WriteLine("sig one right shift length: " + stage3.Length + " " + stage3);
-
             //xor the result of all 3 operations
             output = XorGate(stage1, stage2, stage3);
-            
-            Console.WriteLine("Sigma One: " + output);
-            Console.WriteLine("Sigma One Length: " + output.Length);
             return output; 
         }
 
@@ -145,10 +138,6 @@ namespace Encryption.HashFunction
 
             //xor the result of all 3 operations
             output = XorGate(stage1, stage2, stage3);
-
-
-            Console.WriteLine("Sigma Zero: " + output);
-            Console.WriteLine("Sigma Zero: " + output.Length);
 
             return output;
         }
@@ -182,7 +171,6 @@ namespace Encryption.HashFunction
 
             return rotated;
         }
-
 
         //takes 4 binary strings and xors them
         static string XorGate(string input1, string input2, string input3, string input4)
@@ -387,6 +375,17 @@ namespace Encryption.HashFunction
             // Convert binary to integer and then to hexadecimal
             int decimalValue = Convert.ToInt32(binary, 2);
             return decimalValue.ToString("X");
+        }
+
+        static string HexToBinary(String hexInput)
+        {
+            // Convert hex to unsigned 32-bit integer
+            uint number = Convert.ToUInt32(hexInput, 16);
+
+            // Convert to binary string, padded to 32 bits
+            string binaryString = Convert.ToString(number, 2).PadLeft(32, '0');
+
+            return binaryString;
         }
 
         //turns any given string into its acscii values
