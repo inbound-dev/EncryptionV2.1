@@ -8,4 +8,3 @@ C:\Users\Jorda\OneDrive\Documents\GitHub\EncryptionV2.1\Encryption\Encryption\ob
 C:\Users\Jorda\OneDrive\Documents\GitHub\EncryptionV2.1\Encryption\Encryption\obj\Debug\Encryption.csproj.CoreCompileInputs.cache
 C:\Users\Jorda\OneDrive\Documents\GitHub\EncryptionV2.1\Encryption\Encryption\obj\Debug\Encryption.exe
 C:\Users\Jorda\OneDrive\Documents\GitHub\EncryptionV2.1\Encryption\Encryption\obj\Debug\Encryption.pdb
-C:\Users\Jorda\OneDrive\Documents\GitHub\EncryptionV2.1\Encryption\Encryption\obj\Debug\Encryption.exe.config
