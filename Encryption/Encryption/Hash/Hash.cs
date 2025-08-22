@@ -16,9 +16,6 @@ namespace Encryption.HashFunction
     {
         //message schedule is global as it is used in multiple places
         private static List<String> message = new List<String>();
-
-        //8 working variables
-        private static String a,b,c,d,e,f,g,h;
         public String NewHash(string inputKey)
         {
             List<String> wordSchedulde = new List<String>();
@@ -49,7 +46,7 @@ namespace Encryption.HashFunction
             int lengthAsAscii = (int)binaryRep.Length;
             binaryRep += StringToBinary(lengthAsAscii.ToString());
 
-            //add spaces every 32 chars
+            //add binary to the message schedule in 32 bit segments
             for (int i = 0; i <= binaryRep.Length; i++)
             {
                 if ((i % 32) == 0)
@@ -58,10 +55,13 @@ namespace Encryption.HashFunction
                 }
             }
 
-            //takes the message list and returns the wordSchedule list
+            //takes the message schedule and returns the word schedule
             wordSchedulde = CreateWordSchedule(message);
 
-            //initialize 8 working variables
+
+            //8 working variables
+            String a, b, c, d, e, f, g, h;
+
             a = HexToBinary(initHVals[0]);
             b = HexToBinary(initKVals[1]);
             c = HexToBinary(initKVals[2]);

@@ -30,12 +30,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
@@ -48,10 +44,14 @@
               "RelativeDocumentMoniker": "Encryption\\Hash\\Hash.cs",
               "ToolTip": "C:\\Users\\Jorda\\OneDrive\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\Hash\\Hash.cs",
               "RelativeToolTip": "Encryption\\Hash\\Hash.cs",
-              "ViewState": "AgIAADQAAAAA+c5GJVccwEkAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAAAGcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-09T12:03:53.969Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Document",
