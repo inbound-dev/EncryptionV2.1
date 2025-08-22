@@ -30,15 +30,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Document",
@@ -48,7 +44,7 @@
               "RelativeDocumentMoniker": "Encryption\\Hash\\Hash.cs",
               "ToolTip": "C:\\Users\\Jorda\\OneDrive\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\Hash\\Hash.cs",
               "RelativeToolTip": "Encryption\\Hash\\Hash.cs",
-              "ViewState": "AgIAADoAAAAAAAAAAAAAAEkAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAFMAAAAAAAAAAAAAwGgAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-09T12:03:53.969Z",
               "EditorCaption": ""
@@ -61,9 +57,10 @@
               "RelativeDocumentMoniker": "Encryption\\Form1.cs",
               "ToolTip": "C:\\Users\\Jorda\\OneDrive\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\Form1.cs",
               "RelativeToolTip": "Encryption\\Form1.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAADwv1cAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAQwCkAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-08T01:16:44.665Z"
+              "WhenOpened": "2025-03-08T01:16:44.665Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -74,7 +71,8 @@
               "ToolTip": "C:\\Users\\Jorda\\OneDrive\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\Form1.cs [Design]",
               "RelativeToolTip": "Encryption\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-08T01:12:07.206Z"
+              "WhenOpened": "2025-03-08T01:12:07.206Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
@@ -84,9 +82,10 @@
               "RelativeDocumentMoniker": "Encryption\\EncryptionFiles\\Encryption.cs",
               "ToolTip": "C:\\Users\\Jorda\\OneDrive\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\EncryptionFiles\\Encryption.cs",
               "RelativeToolTip": "Encryption\\EncryptionFiles\\Encryption.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAQwDQAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAADQAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-09T08:45:01.24Z"
+              "WhenOpened": "2025-03-09T08:45:01.24Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

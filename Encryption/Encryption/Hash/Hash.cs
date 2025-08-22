@@ -59,7 +59,7 @@ namespace Encryption.HashFunction
             wordSchedulde = CreateWordSchedule(message);
 
 
-            //8 working variables
+            //8 working variables for use 
             String a, b, c, d, e, f, g, h;
 
             a = HexToBinary(initHVals[0]);
