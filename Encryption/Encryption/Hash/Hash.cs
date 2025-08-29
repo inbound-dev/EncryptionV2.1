@@ -98,10 +98,13 @@ namespace Encryption.HashFunction
             initHVals[6] = XorGate(g, HexToBinary(initHVals[6]));
             initHVals[7] = XorGate(h, HexToBinary(initHVals[7]));
 
+            //goes thru the hvals and converts them to 8char hex strings
             foreach (string val in initHVals)
             {
                 finaloutput += BinaryToHex8(val);
             }
+
+            //returns the computed hash
             return finaloutput;
         }
 
