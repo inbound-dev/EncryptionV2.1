@@ -59,7 +59,7 @@ namespace Encryption.HashFunction
             wordSchedulde = CreateWordSchedule(message);
 
 
-            //8 working variables for use 
+            //8 working variables 
             String a, b, c, d, e, f, g, h;
 
             a = HexToBinary(initHVals[0]);
@@ -95,6 +95,7 @@ namespace Encryption.HashFunction
                 string currWord = XorGate(SigmaOne(result[currentPos - 2]), result[currentPos - 7], SigmaZero(result[currentPos - 15]), result[currentPos - 16]);
 
                 result.Add(currWord);
+                Console.WriteLine(currWord.Length + " " + currWord);
 
                 currentPos++;
             }
@@ -105,7 +106,7 @@ namespace Encryption.HashFunction
         static string SigmaOne(string input)
         {
             string output = "";
-            input = input.Replace(" ", "");
+            //input = input.Replace(" ", "");
 
             //right rotate 17
             string stage1 = RotateBinaryString(input, 17);
@@ -124,8 +125,8 @@ namespace Encryption.HashFunction
         static string SigmaZero(string input)
         {
             string output = "";
-            input = input.Replace(" ", "");
-            input += "0";
+            //input = input.Replace(" ", "");
+            //input += "0";
             
             //right rotate 7
             string stage1 = RotateBinaryString(input, 7);
@@ -141,6 +142,30 @@ namespace Encryption.HashFunction
 
             return output;
         }
+
+        static string SigmaOneUpper(string input)
+        {
+            String output = "";
+
+            //right shift 6
+            //right shift 11
+            //right shift 25
+
+            return output;
+        }
+
+        static string SigmaZeroUpper(string input)
+        {
+            String output = "";
+
+            //right shift 2
+            //right shift 13 
+            //right shift 22
+
+
+            return output;
+        }
+
 
         //shifts any given binary string to the right
         public static string RightShiftBinaryString(string binary, int shiftAmount)
