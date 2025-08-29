@@ -19,6 +19,7 @@ namespace Encryption.HashFunction
         public String NewHash(string inputKey)
         {
             List<String> wordSchedulde = new List<String>();
+            List<String> TVals = new List<String>();
             List<String> initHVals = SetHVals();
             List<String> initKVals = SetKVals();
 
@@ -58,7 +59,6 @@ namespace Encryption.HashFunction
             //takes the message schedule and returns the word schedule
             wordSchedulde = CreateWordSchedule(message);
 
-
             //8 working variables 
             String a, b, c, d, e, f, g, h;
 
@@ -71,9 +71,38 @@ namespace Encryption.HashFunction
             g = HexToBinary(initKVals[6]);
             h = HexToBinary(initKVals[7]); 
 
-            
+            // create 64 T values based on working vars and inputs
+            for(int i = 0; i <= 63; i++)
+            {
+                string temp1 = XorGate(h,SigmaOneUpper(e), ChooseFunc(e,f,g), HexToBinary(initKVals[i]), wordSchedulde[i]);
+                string temp2 = XorGate(SigmaZeroUpper(a), MajFunc(a, b, c));
+                h = g;
+                g = f;
+                f = e;
+                e = XorGate(d, temp1);
+                d = c;
+                c = b;
+                b = a;
+                a = XorGate(temp1, temp2);
+            }
 
-            return binaryRep;
+            //update hvals with working vars to create final binary string
+            string finaloutput = "";
+            
+            initHVals[0] = XorGate(a, HexToBinary(initHVals[0]));
+            initHVals[1] = XorGate(b, HexToBinary(initHVals[1]));
+            initHVals[2] = XorGate(c, HexToBinary(initHVals[2]));
+            initHVals[3] = XorGate(d, HexToBinary(initHVals[3]));
+            initHVals[4] = XorGate(e, HexToBinary(initHVals[4]));
+            initHVals[5] = XorGate(f, HexToBinary(initHVals[5]));
+            initHVals[6] = XorGate(g, HexToBinary(initHVals[6]));
+            initHVals[7] = XorGate(h, HexToBinary(initHVals[7]));
+
+            foreach (string val in initHVals)
+            {
+                finaloutput += BinaryToHex8(val);
+            }
+            return finaloutput;
         }
 
         //create word schedule
@@ -89,24 +118,22 @@ namespace Encryption.HashFunction
             }
             //create the rest of the words in the schedule
             int currentPos = result.Count;
-            while (currentPos <= 24)
+            while (currentPos <= 63)
             {
                 //formula for each word: w(t) = sigmaOne(w(t-2)) + w(t-7) + SigmaZero(w(t-15)) + w(t-16)
                 string currWord = XorGate(SigmaOne(result[currentPos - 2]), result[currentPos - 7], SigmaZero(result[currentPos - 15]), result[currentPos - 16]);
 
                 result.Add(currWord);
-                Console.WriteLine(currWord.Length + " " + currWord);
 
                 currentPos++;
             }
 
             return result;
         }
-
+      
         static string SigmaOne(string input)
         {
             string output = "";
-            //input = input.Replace(" ", "");
 
             //right rotate 17
             string stage1 = RotateBinaryString(input, 17);
@@ -125,8 +152,6 @@ namespace Encryption.HashFunction
         static string SigmaZero(string input)
         {
             string output = "";
-            //input = input.Replace(" ", "");
-            //input += "0";
             
             //right rotate 7
             string stage1 = RotateBinaryString(input, 7);
@@ -148,8 +173,15 @@ namespace Encryption.HashFunction
             String output = "";
 
             //right shift 6
+            string stage1 = RotateBinaryString(input, 6);
+
             //right shift 11
+            string stage2 = RotateBinaryString(stage1, 11);
+
             //right shift 25
+            string stage3 = RotateBinaryString(stage2, 25);
+
+            output = XorGate(stage1, stage2, stage3);
 
             return output;
         }
@@ -159,13 +191,79 @@ namespace Encryption.HashFunction
             String output = "";
 
             //right shift 2
-            //right shift 13 
+            string stage1 = RotateBinaryString(input, 2);
+
+            //right shift 13
+            string stage2 = RotateBinaryString(stage1, 13);
+
             //right shift 22
+            string stage3 = RotateBinaryString(stage2, 22);
+
+            output = XorGate(stage1, stage2, stage3);
 
 
             return output;
         }
 
+        /// <summary>
+        /// Choose function uses the first string to determine which parts of the others are used
+        /// </summary>
+        /// <param name="input1"></param>
+        /// <param name="input2"></param>
+        /// <param name="input3"></param>
+        /// <returns>32 bit string based on the given inputs</returns>
+        /// <exception cref="ArgumentException"></exception>
+        static string ChooseFunc(string input1, string input2, string input3)
+        {
+            string output = "";
+
+            for(int i = 0; i <= input1.Length - 1; i++)
+            {
+                if (input1[i] == '0')
+                {
+                    output += input3[i];
+                }
+                else
+                {
+                    output += input2[i];
+                }
+            }
+
+            return output;
+        }
+
+        /// <summary>
+        /// Majority Function figures out bit by bit which bit has majority and uses it
+        /// </summary>
+        /// <param name="input1"></param>
+        /// <param name="input2"></param>
+        /// <param name="input3"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static string MajFunc(string input1, string input2, string input3)
+        {
+            string output = "";
+
+            for (int i = 0; i <= input1.Length -1; i++)
+            {
+                int a = int.Parse(input1[i].ToString());
+                int b = int.Parse(input2[i].ToString());
+                int c = int.Parse(input3[i].ToString());
+
+                int sum = a + b + c;
+
+                if (sum >= 2)
+                {
+                    output += "1";
+                }
+                else
+                {
+                    output += "0";
+                }
+            }
+
+            return output;
+        }
 
         //shifts any given binary string to the right
         public static string RightShiftBinaryString(string binary, int shiftAmount)
@@ -197,6 +295,36 @@ namespace Encryption.HashFunction
             return rotated;
         }
 
+        //takes 5 bianry strings and xors them
+        public static string XorGate(string input1, string input2, string input3, string input4, string input5)
+        {
+            StringBuilder output = new StringBuilder(input1.Length);
+
+            // Check all lengths match
+            if (!(input1.Length == input2.Length &&
+                  input2.Length == input3.Length &&
+                  input3.Length == input4.Length &&
+                  input4.Length == input5.Length))
+            {
+                throw new Exception("XOR inputs are not the same length!");
+            }
+
+            for (int i = 0; i < input1.Length; i++)
+            {
+                int bit1 = input1[i] - '0';
+                int bit2 = input2[i] - '0';
+                int bit3 = input3[i] - '0';
+                int bit4 = input4[i] - '0';
+                int bit5 = input5[i] - '0';
+
+                int xorResult = bit1 ^ bit2 ^ bit3 ^ bit4 ^ bit5; // XOR of 5 bits
+
+                output.Append(xorResult);
+            }
+
+            return output.ToString();
+        }
+
         //takes 4 binary strings and xors them
         static string XorGate(string input1, string input2, string input3, string input4)
         {
@@ -226,7 +354,7 @@ namespace Encryption.HashFunction
             return output.ToString();
         }
 
-        //takes three strings of binary and xors them
+        //takes 3 strings of binary and xors them
         static string XorGate(string input1, string input2, string input3)
         {
             StringBuilder output = new StringBuilder(input1.Length);
@@ -243,6 +371,20 @@ namespace Encryption.HashFunction
             }
 
             return output.ToString();
+        }
+
+        //takes 2 strings of binary and xors them (done a little different than the others)
+        public string XorGate(string input1, string input2)
+        {
+            char[] result = new char[input1.Length];
+
+            for (int i = 0; i < input1.Length; i++)
+            {
+                // XOR: 1 if different, 0 if same
+                result[i] += (input1[i] == input2[i]) ? '0' : '1';
+            }
+
+            return new string(result);
         }
 
         //returns the K val for the first 64 prime numbers
@@ -400,6 +542,18 @@ namespace Encryption.HashFunction
             // Convert binary to integer and then to hexadecimal
             int decimalValue = Convert.ToInt32(binary, 2);
             return decimalValue.ToString("X");
+        }
+
+        public static string BinaryToHex8(string binary32)
+        {
+            if (binary32.Length != 32)
+                throw new ArgumentException("Input must be a 32-bit binary string.");
+
+            // Convert binary string to an integer
+            uint value = Convert.ToUInt32(binary32, 2);
+
+            // Format as 8-character hex string (uppercase, padded with zeros if needed)
+            return value.ToString("X8");
         }
 
         static string HexToBinary(String hexInput)
