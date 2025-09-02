@@ -329,7 +329,7 @@ namespace Encryption.HashFunction
         }
 
         //takes 4 binary strings and xors them
-        static string XorGate(string input1, string input2, string input3, string input4)
+        public static string XorGate(string input1, string input2, string input3, string input4)
         {
             StringBuilder output = new StringBuilder(input1.Length);
 
@@ -358,7 +358,7 @@ namespace Encryption.HashFunction
         }
 
         //takes 3 strings of binary and xors them
-        static string XorGate(string input1, string input2, string input3)
+        public static string XorGate(string input1, string input2, string input3)
         {
             StringBuilder output = new StringBuilder(input1.Length);
 
@@ -502,21 +502,21 @@ namespace Encryption.HashFunction
         }
 
         //gets the fractional section of the square root of any number
-        static double GetSquareRootFractionalPart(int num)
+        public static double GetSquareRootFractionalPart(int num)
         {
             double sqrtValue = Math.Sqrt(num);
             return sqrtValue - Math.Floor(sqrtValue);
         }
 
         //gets the fractional section of the cubed root of any number
-        static double GetCubeRootFractionalPart(int num)
+        public static double GetCubeRootFractionalPart(int num)
         {
             double cubeRoot = Math.Pow(num, 1.0 / 3.0);
             return cubeRoot - Math.Floor(cubeRoot);
         }
 
         //checks if given number is a prime number
-        static bool IsPrime(int number)
+        public static bool IsPrime(int number)
         {
             if (number < 2)
                 return false;
@@ -530,7 +530,7 @@ namespace Encryption.HashFunction
         }
 
         //turns any given binary string into hex
-        static string BinaryToHex(string binary)
+        public static string BinaryToHex(string binary)
         {
             if (string.IsNullOrEmpty(binary))
                 throw new ArgumentException("Input cannot be null or empty");
@@ -559,7 +559,7 @@ namespace Encryption.HashFunction
             return value.ToString("X8");
         }
 
-        static string HexToBinary(String hexInput)
+        public static string HexToBinary(String hexInput)
         {
             // Convert hex to unsigned 32-bit integer
             uint number = Convert.ToUInt32(hexInput, 16);
@@ -571,7 +571,7 @@ namespace Encryption.HashFunction
         }
 
         //turns any given string into its acscii values
-        private static string StringToBinary(string input)
+        public static string StringToBinary(string input)
         {
             string output = string.Empty;
 
@@ -584,7 +584,7 @@ namespace Encryption.HashFunction
         } 
 
         //converts characters from ASCII to binary
-        private static string AsciiToBinary(int ascii)
+        public static string AsciiToBinary(int ascii)
         {
             return Convert.ToString(ascii, 2).PadLeft(8, '0'); // Converts to binary with 8-bit padding
         }
