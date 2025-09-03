@@ -23,15 +23,10 @@ namespace Encryption.HashFunction
             List<String> initHVals = SetHVals();
             List<String> initKVals = SetKVals();
 
-            //turns the given string into its ASCII representation
-            string numericalRep = string.Empty;
-            foreach (char key in inputKey)
-            {
-                numericalRep += (int)key;
-            }
-
             //turns given string into its binary representation
-            string binaryRep = StringToBinary(numericalRep);
+            string binaryRep = StringToBinary(inputKey);
+
+            Console.WriteLine(binaryRep);
 
             //captures the length of the message before padding
             int length = binaryRep.Length;
@@ -101,7 +96,7 @@ namespace Encryption.HashFunction
             //goes thru the hvals and converts them to 8char hex strings
             foreach (string val in initHVals)
             {
-                finaloutput += BinaryToHex8(val);
+                finaloutput += BinaryToHex(val);
             }
 
             //returns the computed hash
@@ -484,7 +479,7 @@ namespace Encryption.HashFunction
         static string ConvertFractionToBinary(double number)
         {
             double fractionalPart = number - Math.Floor(number); // Extract fractional part
-            if (fractionalPart == 0) return "0"; // If no fractional part, return "0"
+            if (fractionalPart == 0) return "0"; 
 
             string binary = "";
             int precision = 32; // Limit precision to avoid infinite loops for repeating fractions
@@ -530,24 +525,7 @@ namespace Encryption.HashFunction
         }
 
         //turns any given binary string into hex
-        public static string BinaryToHex(string binary)
-        {
-            if (string.IsNullOrEmpty(binary))
-                throw new ArgumentException("Input cannot be null or empty");
-
-            // Ensure the length is a multiple of 4 for proper conversion
-            int remainder = binary.Length % 4;
-            if (remainder != 0)
-            {
-                binary = binary.PadLeft(binary.Length + (4 - remainder), '0');
-            }
-
-            // Convert binary to integer and then to hexadecimal
-            int decimalValue = Convert.ToInt32(binary, 2);
-            return decimalValue.ToString("X");
-        }
-
-        public static string BinaryToHex8(string binary32)
+        public static string BinaryToHex(string binary32)
         {
             if (binary32.Length != 32)
                 throw new ArgumentException("Input must be a 32-bit binary string.");
@@ -573,20 +551,15 @@ namespace Encryption.HashFunction
         //turns any given string into its acscii values
         public static string StringToBinary(string input)
         {
-            string output = string.Empty;
+            StringBuilder binaryOutput = new StringBuilder();
 
-            foreach (char val in input)
+            foreach (char c in input)
             {
-                output += AsciiToBinary(val);
+                string binaryChar = Convert.ToString(c, 2).PadLeft(8, '0');
+                binaryOutput.Append(binaryChar);
             }
 
-            return output;
-        } 
-
-        //converts characters from ASCII to binary
-        public static string AsciiToBinary(int ascii)
-        {
-            return Convert.ToString(ascii, 2).PadLeft(8, '0'); // Converts to binary with 8-bit padding
+            return binaryOutput.ToString();
         }
     }
 }
