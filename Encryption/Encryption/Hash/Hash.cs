@@ -26,8 +26,6 @@ namespace Encryption.HashFunction
             //turns given string into its binary representation
             string binaryRep = StringToBinary(inputKey);
 
-            Console.WriteLine(binaryRep);
-
             //captures the length of the message before padding
             int length = binaryRep.Length;
 
@@ -93,7 +91,7 @@ namespace Encryption.HashFunction
             initHVals[6] = XorGate(g, HexToBinary(initHVals[6]));
             initHVals[7] = XorGate(h, HexToBinary(initHVals[7]));
 
-            //goes thru the hvals and converts them to 8char hex strings
+            //goes thru the modified hvals and converts them to 8 character hex strings
             foreach (string val in initHVals)
             {
                 finaloutput += BinaryToHex(val);
@@ -240,7 +238,7 @@ namespace Encryption.HashFunction
         /// <exception cref="ArgumentException"></exception>
         public static string MajFunc(string input1, string input2, string input3)
         {
-            string output = "";
+            string output = string.Empty;
 
             for (int i = 0; i <= input1.Length -1; i++)
             {

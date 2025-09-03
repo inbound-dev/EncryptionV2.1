@@ -7,20 +7,20 @@
       "RelativeMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|solutionrelative:encryption\\hash\\hash.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|C:\\Users\\jordan\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\encryption\\encryptionfiles\\encryption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|solutionrelative:encryption\\encryptionfiles\\encryption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|C:\\Users\\jordan\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\encryption\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|solutionrelative:encryption\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|C:\\Users\\jordan\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\encryption\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|solutionrelative:encryption\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|C:\\Users\\jordan\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\encryption\\decryptionfiles\\decryption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|solutionrelative:encryption\\decryptionfiles\\decryption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|C:\\Users\\jordan\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\encryption\\encryptionfiles\\encryption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|solutionrelative:encryption\\encryptionfiles\\encryption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|C:\\Users\\jordan\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\encryption\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|solutionrelative:encryption\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|C:\\Users\\jordan\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\encryption\\decryptionfiles\\decryption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CD58F4F7-EE44-4974-AABC-91CEF1BD7A9A}|Encryption\\Encryption.csproj|solutionrelative:encryption\\decryptionfiles\\decryption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,15 +38,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\Users\\jordan\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\Form1.cs",
               "RelativeDocumentMoniker": "Encryption\\Form1.cs",
               "ToolTip": "C:\\Users\\jordan\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\Form1.cs",
               "RelativeToolTip": "Encryption\\Form1.cs",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAowFIAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAgwE8AAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-08T01:16:44.665Z"
+              "WhenOpened": "2025-03-08T01:16:44.665Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -54,10 +55,11 @@
               "Title": "Form1.cs [Design]",
               "DocumentMoniker": "C:\\Users\\jordan\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\Form1.cs",
               "RelativeDocumentMoniker": "Encryption\\Form1.cs",
-              "ToolTip": "C:\\Users\\Jorda\\OneDrive\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\Form1.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\Jorda\\OneDrive\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\Form1.cs [Design]",
+              "ToolTip": "C:\\Users\\jordan\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\Form1.cs [Design]",
+              "RelativeToolTip": "Encryption\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-08T01:12:07.206Z"
+              "WhenOpened": "2025-03-08T01:12:07.206Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
@@ -67,14 +69,14 @@
               "RelativeDocumentMoniker": "Encryption\\Hash\\Hash.cs",
               "ToolTip": "C:\\Users\\jordan\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\Hash\\Hash.cs",
               "RelativeToolTip": "Encryption\\Hash\\Hash.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAF0AAABLAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-29T12:46:34.436Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Encryption.cs",
               "DocumentMoniker": "C:\\Users\\jordan\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\EncryptionFiles\\Encryption.cs",
               "RelativeDocumentMoniker": "Encryption\\EncryptionFiles\\Encryption.cs",
@@ -86,7 +88,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Decryption.cs",
               "DocumentMoniker": "C:\\Users\\jordan\\Documents\\GitHub\\EncryptionV2.1\\Encryption\\Encryption\\DecryptionFiles\\Decryption.cs",
               "RelativeDocumentMoniker": "Encryption\\DecryptionFiles\\Decryption.cs",

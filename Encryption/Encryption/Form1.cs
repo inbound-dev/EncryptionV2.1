@@ -78,8 +78,6 @@ namespace Encryption
             //uses hashfunction to create a hash of given password
             Hash hashfunc = new Hash();
             hash = hashfunc.NewHash(key);
-            
-
             Console.WriteLine("SHA256 Hash: " + hash);
 
             //encrypts the file with the given key
